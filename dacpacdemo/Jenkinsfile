@@ -1,0 +1,15 @@
+node {
+    stage('git checkout'){
+        git 'https://github.com/sudhirsharma143/dacpacdemo.git'
+    }
+    stage('Build Dacpac from SQLProj'){
+        bat "\"${tool name: 'Msbuild_v4.0', type: 'msbuild'}\"  /p:Configuration=Debug /p:VisualStudioVersion=12.0 /m"
+        stash includes: 'dacpacdemo\\bin\\Debug\\dacpacdemo.dacpac', name: 'theDacpac'
+    }
+    stage('Deploy Dacpac to SQL Server')
+    {
+        unstash 'theDacpac'
+        bat "\"C:\\Program Files\\Microsoft SQL Server\\110\\DAC\\bin\\sqlpackage.exe\" /Action:Publish /SourceFile:\"dacpacdemo\\bin\\Debug\\dacpacdemo.dacpac\" /TargetServerName:HOMESOFT-PC\\SQLEXPRESS /TargetUser:sa /TargetPassword:123456789 /TargetDatabaseName:Chinook"
+        
+    }
+}
