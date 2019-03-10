@@ -1,6 +1,6 @@
 ﻿CREATE TABLE [dbo].[Album] (
     [AlbumId]  INT            NOT NULL,
-    [Title]    NVARCHAR (150) NOT NULL,
+    [Title]    NVARCHAR (200) NOT NULL,
     [ArtistId] INT            NOT NULL,
     CONSTRAINT [PK_Album] PRIMARY KEY CLUSTERED ([AlbumId] ASC),
     CONSTRAINT [FK_AlbumArtistId] FOREIGN KEY ([ArtistId]) REFERENCES [dbo].[Artist] ([ArtistId])
